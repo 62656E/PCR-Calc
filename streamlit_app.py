@@ -9,8 +9,8 @@ st.title('SYBR Green qPCR Calculator. All volumes given in uL. The calculator as
 # Sidebar with user inputs
 st.sidebar.header('User Inputs')
 reaction_vol = st.sidebar.selectbox('Reaction volume (uL)', [10, 20])
-no_genes = st.sidebar.number_input('Number of genes (primer pairs)')
-no_samples = st.sidebar.number_input('Number of samples per gene (primer pair)')
+no_genes = st.sidebar.number_input('Number of genes (primer pairs)', min_value=1, step=1)
+no_samples = st.sidebar.number_input('Number of samples per gene (primer pair)', min_value=1, step=1)
 
 # Create output dataframe
 data = pd.DataFrame(columns = ["Gene", "YSBVol", "DNAVol"])
@@ -21,9 +21,13 @@ if no_genes > 0:
     # Dictionary to store gene names
     gene_names = {}
     
+    # Loop through the number of genes and request the gene names
     for i in range(1, no_genes + 1):
         gene_name = st.text_input(f"Gene {i} name:", key=f"gene_{i}")
         gene_names[f"Gene {i}"] = gene_name
+
+# Add gene names to the dataframe
+data["Gene"] = gene_names.values() 
 
 
 
