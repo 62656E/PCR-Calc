@@ -121,13 +121,15 @@ def ninetysix_plate_planner(sample_no, dna_concs, reaction_vol, genes, reps, inc
             cont_index += 1
             
     # Add volume of reagents needed per well to the vol_plate_layout dataframe
-    
-    # Add DNA 
+    well_index = 0
     for sample in range(1,sample_no + 1):
         row = rows[well_index // 12]
         col = columns[well_index % 12]
-        dna_vol = temp_per_well(reaction_vol, dna_concs[sample])
-        vol_plate_layout
+        dna_vol = temp_per_well(reaction_vol, dna_concs[sample]) + 0.5 if reaction_vol == 20 else 0.25
+        sybr_vol = 10 if reaction_vol == 20 else 5
+        primer_vol = 1 if reaction_vol == 20 else 0.5
+        water_vol = reaction_vol - dna_vol - sybr_vol - primer_vol
+        vol_plate_layout.loc[row,col] = f"{dna_vol} uL DNA, {sybr_vol} uL SYBR, {primer_vol} uL primers, {water_vol} uL water"
     
 
 
