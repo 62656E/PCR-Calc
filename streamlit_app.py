@@ -1,9 +1,8 @@
 # Import necessary libraries
 import streamlit as st
-from io import BytesIO
 import pandas as pd
 import pcr_func as pcr
-
+from io import BytesIO
 
 # Title Streamlit app
 st.title('SYBR Green qPCR Calculator')
@@ -34,17 +33,47 @@ if no_genes > 0:
 # Add gene names to the dataframe
 data["Gene"] = gene_names.values() 
 
-#
+# Display editable dataframe
+st.markdown("Please fill in the DNA concentrations for each gene, then click calculate")
+st.data_editor(data)
 
-# Calculate the volume of yellow sample buffer and DNA for each gene
-ysb_dict = {}
-dna_dict = {}
+# Calculate volumes of YSB and DNA for each gene
+if st.button("Calculate"):
+    for i in range(no_genes):
+        data["YSBVol"][i] = pcr.ysb_vol_calc(reaction_vol, no_samples)
+        data["DNAVol"][i] = pcr.dna_vol_calc(reaction_vol, no_samples, data["DNAConc"][i])
+        buffer = BytesIO()
+        data.to_csv(buffer, index=False)
+        buffer.seek(0)
+        
+# Download CSV button
+st.download_button(
+    label="Download results as CSV",
+    data=buffer,
+    file_name='qPCR_volumes.csv',
+    mime='text/csv'
+)
 
-for i in range(no_genes):
-    ysb_dict[f"Gene {i+1}"] = pcr.ysb_vol_calc(reaction_vol, no_samples)
-    dna_dict[f"Gene {i+1}"] = pcr.dna_vol_calc(reaction_vol, no_samples)  
+# Download xlsx button
+st.download_button(
+    label="Download results as Excel",
+    data=buffer,
+    file_name='qPCR_volumes.xlsx',
+    mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+)
 
+# Download PNG button
+st.download_button(
+    label="Download results as PNG",
+    data=buffer,
+    file_name='qPCR_volumes.png',
+    mime='image/png'
+)
 
+    
+    
+
+    
 
 
 
