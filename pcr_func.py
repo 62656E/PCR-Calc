@@ -128,10 +128,10 @@ def ninetysix_plate_planner(
                 sybr_vol = 10 if reaction_vol == 20 else 5
                 primer_vol = 1 if reaction_vol == 20 else 0.5
                 water_vol = (
-                    int(reaction_vol) - int(dna_vol) - int(sybr_vol) - int(primer_vol)
+                    int(reaction_vol) - int(dna_vol) - int(sybr_vol) - int((primer_vol)*2)
                 )
                 vol_plate_layout.loc[row, col] = (
-                    f"{int(dna_vol)}-{int(sybr_vol)}-{int(primer_vol)}-{int(water_vol)}"
+                    f"{int(dna_vol)} DNA -{int(sybr_vol)} SYBR -{int(primer_vol)} Each Primer -{int(water_vol)} Water"
                 )
             row_index += 1
 
