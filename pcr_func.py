@@ -1,18 +1,19 @@
 # Import necessary libraries
 import pandas as pd
 
-def temp_per_well(reaction_vol, dna_conc, final_conc = 0.5):
+def temp_per_well(reaction_vol, dna_conc):
     """
     This function calculates the volume of DNA needed per well for a given concentration of DNA.
     
     Parameters:
     reaction_vol: int, the total volume of the PCR reaction in uL
     dna_conc: float, the concentration of the DNA in ng/uL
-    final_conc: float, the final concentration of DNA in the PCR reaction in ng/uL. Default value is 0.5.
+    
     
     Returns:
     dna_vol: float, the volume of DNA needed per well in uL
     """
+    final_conc = 0.5 # Final concentration of DNA in ng/uL
     
     # Check if the DNA concentration is less than or equal to 0
     if dna_conc <= 0:
