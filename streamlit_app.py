@@ -43,7 +43,7 @@ controls = st.sidebar.checkbox('Include Controls')
 
 # Calculate plate layout based on user input
 if st.sidebar.button('Calculate Plate Layout'):
-    plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(samples, dna_concs, reaction_vol, primer_pairs, reps, controls)
+    plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(samples, dna_concs, reaction_vol, gene_names, reps, controls)
     # Display plate_layout and vol_plate_layout in a table
     st.header('Plate Layout:')
     st.dataframe(plate_layout)
