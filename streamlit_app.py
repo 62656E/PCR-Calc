@@ -2,6 +2,8 @@
 import streamlit as st
 from io import BytesIO
 import pandas as pd
+import pcr_func as pcr
+
 
 # Title Streamlit app
 st.title('SYBR Green qPCR Calculator. All volumes given in uL. The calculator assumes 40X yellow sample buffer is being used.')
@@ -23,11 +25,19 @@ if no_genes > 0:
     
     # Loop through the number of genes and request the gene names
     for i in range(1, int(no_genes) + 1):
-        gene_name = st.text_input(f"Gene {i} name:", key=f"gene_{i}")
+        gene_name = st.sidebar.text_input(f"Gene {i} name:", key=f"gene_{i}")
         gene_names[f"Gene {i}"] = gene_name
 
 # Add gene names to the dataframe
 data["Gene"] = gene_names.values() 
+
+# Calculate the volume of yellow sample buffer and DNA for each gene
+
+ysb_dict = {}
+dna_dict = {}
+
+for i in range(no_genes):
+    
 
 
 
