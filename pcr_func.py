@@ -113,48 +113,43 @@ def ninetysix_plate_planner(
             "The number of reactions exceeds the number of wells in the plate."
         )
 
-    # Populate dataframe with sample-primer-repeat number combinations
-    well_index = 0
+    # Populate plate layout dataframe with sample-primer-repeat number combinations and volume plate layout with volumes
+    row_index = 0
     for gene in genes:
-        for sample in range(1, sample_no + 1):
-            for repeat in range(1, reps + 1):
-                row = rows[well_index // 12]
-                col = columns[well_index % 12]
+        for repeat in range(1, reps + 1):
+            for sample in range(1, sample_no + 1):
+                # Each repeat of a gene gets its own row
+                row = rows[row_index]
+                col = columns[sample - 1] # Each sample gets its own column 
                 plate_layout.loc[row, col] = f"{gene}_{sample}_{repeat}"
-                well_index += 1
+
+                # Populate volume plate layout with volumes
+                dna_vol = temp_per_well(reaction_vol, dna_concs[sample - 1])
+                sybr_vol = 10 if reaction_vol == 20 else 5
+                primer_vol = 1 if reaction_vol == 20 else 0.5
+                water_vol = reaction_vol - dna_vol - sybr_vol - primer_vol
+                vol_plate_layout.loc[row, col] = (
+                    f"{dna_vol}-{sybr_vol}-{primer_vol}-{water_vol}"
+                )
+            row_index += 1
 
     # Add control wells to the dataframe
     if inc_controls:
-        cont_index = well_index  # Start control wells from the next available index
+        control_row = rows[row_index]
+        cont_index = 0
+        
+        # Place no template control wells for each gene
         for gene in genes:
-            row = rows[cont_index // 12]
-            col = columns[cont_index % 12]
-            plate_layout.loc[row, col] = f"NTC_{gene}"
+            plate_layout.loc[control_row, columns[cont_index]] = f"{gene}_NTC"
             cont_index += 1
+        # Place positive control wells for each gene
         for gene in genes:
-            row = rows[cont_index // 12]
-            col = columns[cont_index % 12]
-            plate_layout.loc[row, col] = f"PC_{gene}"
+            plate_layout.loc[control_row, columns[cont_index + 1]] = f"{gene}_PC"
             cont_index += 1
+        # Place negative control wells for each gene
         for gene in genes:
-            row = rows[cont_index // 12]
-            col = columns[cont_index % 12]
-            plate_layout.loc[row, col] = f"NC_{gene}"
+            plate_layout.loc[control_row, columns[cont_index + 2]] = f"{gene}_NC"
             cont_index += 1
-
-    # Add volume of reagents needed per well to the vol_plate_layout dataframe
-    well_index = 0
-    for sample in range(1, sample_no + 1):
-        row = rows[well_index // 12]
-        col = columns[well_index % 12]
-        dna_vol = temp_per_well(reaction_vol, dna_concs[sample - 1])  # Adjust indexing for DNA concentrations
-        sybr_vol = 10 if reaction_vol == 20 else 5
-        primer_vol = 1 if reaction_vol == 20 else 0.5
-        water_vol = reaction_vol - dna_vol - sybr_vol - primer_vol
-        vol_plate_layout.loc[row, col] = (
-            f"{dna_vol:.2f} uL DNA, {sybr_vol:.2f} uL SYBR, {primer_vol:.2f} uL primers, {water_vol:.2f} uL water"
-        )
-        well_index += 1
     
     return plate_layout, vol_plate_layout
 
