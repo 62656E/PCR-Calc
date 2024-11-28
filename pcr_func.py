@@ -85,6 +85,14 @@ def ninetysix_plate_planner(
     vol_plate_layout: dataframe, a dataframe with the volume of reagents needed per well
     """
     
+    print("Sample_no: ", sample_no)
+    print("DNA_concs: ", dna_concs)
+    print("Reaction_vol: ", reaction_vol)
+    print("Genes: ", genes)
+    print("Reps: ", reps)
+    print("Inc_controls: ", inc_controls)
+    
+    
     if len(dna_concs) != sample_no:
         raise ValueError("Number of DNA concentrations does not match the number of samples.")  
 
