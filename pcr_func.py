@@ -1,6 +1,7 @@
 # Import necessary libraries
 import pandas as pd
 
+
 def temp_per_well(reaction_vol, dna_conc):
     """
     This function calculates the volume of DNA needed per well for a given concentration of DNA.
@@ -20,7 +21,7 @@ def temp_per_well(reaction_vol, dna_conc):
         raise ValueError("DNA concentration cannot be less than or equal to 0.")
     # Calculate the volume of DNA needed per well for a given sample
     dna_vol = (final_conc * reaction_vol) / dna_conc
-    
+
     return int(dna_vol)  # Return the volume of DNA needed per well
 
 
@@ -39,9 +40,7 @@ def total_dna_vol(dna_vol, reps, primer_pairs):
 
     # Calculate the total volume of DNA needed for a given number of replicates and primer pairs
     # Add 10% extra volume for pipetting error
-    total_dna = (
-        dna_vol * reps * primer_pairs
-    ) * 1.1
+    total_dna = (dna_vol * reps * primer_pairs) * 1.1
     return total_dna  # Return the total volume of DNA needed
 
 
@@ -84,17 +83,18 @@ def ninetysix_plate_planner(
     plate_layout: dataframe, a dataframe with the plate layout
     vol_plate_layout: dataframe, a dataframe with the volume of reagents needed per well
     """
-    
+
     print("Sample_no: ", sample_no)
     print("DNA_concs: ", dna_concs)
     print("Reaction_vol: ", reaction_vol)
     print("Genes: ", genes)
     print("Reps: ", reps)
     print("Inc_controls: ", inc_controls)
-    
-    
+
     if len(dna_concs) != sample_no:
-        raise ValueError("Number of DNA concentrations does not match the number of samples.")  
+        raise ValueError(
+            "Number of DNA concentrations does not match the number of samples."
+        )
 
     # Define the dataframe with the rows and columns of the 96 well plate
     rows = ["A", "B", "C", "D", "E", "F", "G", "H"]
@@ -120,16 +120,18 @@ def ninetysix_plate_planner(
             for sample in range(1, sample_no + 1):
                 # Each repeat of a gene gets its own row
                 row = rows[row_index]
-                col = columns[sample - 1] # Each sample gets its own column 
+                col = columns[sample - 1]  # Each sample gets its own column
                 plate_layout.loc[row, col] = f"{gene}_{sample}_{repeat}"
 
                 # Populate volume plate layout with volumes
                 dna_vol = temp_per_well(reaction_vol, dna_concs[sample - 1])
                 sybr_vol = 10 if reaction_vol == 20 else 5
                 primer_vol = 1 if reaction_vol == 20 else 0.5
-                water_vol = int(reaction_vol) - int(dna_vol) - int(sybr_vol) - int(primer_vol)
+                water_vol = (
+                    int(reaction_vol) - int(dna_vol) - int(sybr_vol) - int(primer_vol)
+                )
                 vol_plate_layout.loc[row, col] = (
-                    f"{int(dna_vol)}-{(int(sybr_vol)}-{int(primer_vol)}-{(int(water_vol)}"
+                    f"{int(dna_vol)}-{int(sybr_vol)}-{int(primer_vol)}-{int(water_vol)}"
                 )
             row_index += 1
 
@@ -137,7 +139,7 @@ def ninetysix_plate_planner(
     if inc_controls:
         control_row = rows[row_index]
         cont_index = 0
-        
+
         # Place no template control wells for each gene
         for gene in genes:
             plate_layout.loc[control_row, columns[cont_index]] = f"{gene}_NTC"
@@ -150,6 +152,5 @@ def ninetysix_plate_planner(
         for gene in genes:
             plate_layout.loc[control_row, columns[cont_index + 2]] = f"{gene}_NC"
             cont_index += 1
-    
-    return plate_layout, vol_plate_layout
 
+    return plate_layout, vol_plate_layout
