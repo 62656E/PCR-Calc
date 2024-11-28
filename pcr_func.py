@@ -1,7 +1,6 @@
 # Import necessary libraries
 import pandas as pd
 
-
 def temp_per_well(reaction_vol, dna_conc):
     """
     This function calculates the volume of DNA needed per well for a given concentration of DNA.
@@ -19,8 +18,9 @@ def temp_per_well(reaction_vol, dna_conc):
     # Check if the DNA concentration is less than or equal to 0
     if dna_conc <= 0:
         raise ValueError("DNA concentration cannot be less than or equal to 0.")
-    else:  # Calculate the volume of DNA needed per well for a given sample
-        dna_vol = (final_conc * reaction_vol) / dna_conc
+    # Calculate the volume of DNA needed per well for a given sample
+    dna_vol = (final_conc * reaction_vol) / dna_conc
+    
     return dna_vol  # Return the volume of DNA needed per well
 
 
@@ -38,9 +38,10 @@ def total_dna_vol(dna_vol, reps, primer_pairs):
     """
 
     # Calculate the total volume of DNA needed for a given number of replicates and primer pairs
+    # Add 10% extra volume for pipetting error
     total_dna = (
         dna_vol * reps * primer_pairs
-    ) * 1.1  # Add 10% extra volume for pipetting error
+    ) * 1.1
     return total_dna  # Return the total volume of DNA needed
 
 
@@ -60,8 +61,8 @@ def ysb_vol_calc(reaction_vol, reps, primer_pairs):
 
     if reaction_vol == 10:
         ysb_vol = (reps * primer_pairs) * 0.25
-    elif reaction_vol == 20:
-        ysb_vol = (reps * primer_pairs) * 0.5
+    else:
+        raise ValueError("Unsupported reaction volume. Please use 10 or 20 uL.")
     return ysb_vol
 
 
@@ -83,6 +84,9 @@ def ninetysix_plate_planner(
     plate_layout: dataframe, a dataframe with the plate layout
     vol_plate_layout: dataframe, a dataframe with the volume of reagents needed per well
     """
+    
+    if len(dna_concs) != sample_no:
+        raise ValueError("Number of DNA concentrations does not match the number of samples.")  
 
     # Define the dataframe with the rows and columns of the 96 well plate
     rows = ["A", "B", "C", "D", "E", "F", "G", "H"]
@@ -112,7 +116,7 @@ def ninetysix_plate_planner(
                 well_index += 1
 
     # Add control wells to the dataframe
-    cont_index = 0
+    cont_index = well_index
     if inc_controls:
         for gene in genes:
             row = "H"
@@ -135,14 +139,12 @@ def ninetysix_plate_planner(
     for sample in range(1, sample_no + 1):
         row = rows[well_index // 12]
         col = columns[well_index % 12]
-        dna_vol = (
-            temp_per_well(reaction_vol, dna_concs[sample - 1]) + 0.5
-            if reaction_vol == 20
-            else +0.25
-        )
+        dna_vol = temp_per_well(reaction_vol, dna_concs[sample - 1])  # Adjust indexing for DNA concentrations
         sybr_vol = 10 if reaction_vol == 20 else 5
         primer_vol = 1 if reaction_vol == 20 else 0.5
         water_vol = reaction_vol - dna_vol - sybr_vol - primer_vol
         vol_plate_layout.loc[row, col] = (
-            f"{dna_vol} uL DNA, {sybr_vol} uL SYBR, {primer_vol} uL primers, {water_vol} uL water"
+            f"{dna_vol:.2f} uL DNA, {sybr_vol:.2f} uL SYBR, {primer_vol:.2f} uL primers, {water_vol:.2f} uL water"
         )
+        well_index += 1
+
