@@ -6,10 +6,13 @@ import pcr_func as pcr
 
 
 # Title Streamlit app
-st.title('SYBR Green qPCR Calculator. All volumes given in uL. The calculator assumes 40X yellow sample buffer is being used.')
+st.title('SYBR Green qPCR Calculator')
+st.markdown("All volumes given in uL. The calculator assumes 40X yellow sample buffer is being used.") 
+        
 
 # Sidebar with user inputs
 st.sidebar.header('User Inputs')
+st.sidebar.markdown("Please enter the following information")
 reaction_vol = st.sidebar.selectbox('Reaction volume (uL)', [10, 20])
 no_genes = st.sidebar.number_input('Number of genes (primer pairs)', min_value=1, step=1)
 no_samples = st.sidebar.number_input('Number of samples per gene (primer pair)', min_value=1, step=1)
@@ -31,13 +34,15 @@ if no_genes > 0:
 # Add gene names to the dataframe
 data["Gene"] = gene_names.values() 
 
-# Calculate the volume of yellow sample buffer and DNA for each gene
+#
 
+# Calculate the volume of yellow sample buffer and DNA for each gene
 ysb_dict = {}
 dna_dict = {}
 
 for i in range(no_genes):
-    
+    ysb_dict[f"Gene {i+1}"] = pcr.ysb_vol_calc(reaction_vol, no_samples)
+    dna_dict[f"Gene {i+1}"] = pcr.dna_vol_calc(reaction_vol, no_samples)  
 
 
 

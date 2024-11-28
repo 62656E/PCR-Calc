@@ -6,9 +6,14 @@ def ysb_vol_calc(reaction_vol, no_samples):
         ysb_vol = no_samples * 0.25
     elif reaction_vol == 20:
         ysb_vol = no_samples * 0.5
-    else:
-        print("Reaction volume not supported")
-        
+    return ysb_vol
+
+def dna_vol_calc(reaction_vol, no_samples, dna_conc):
+    """
+    This function calculates the volume of DNA to add to a given volume of yellow sample buffer for SYBR Green based qPCR.
+    """
+
+
             
 
-    return dict(ysb_vol = ysb_vol, dna_vol = dna_vol)
+    
