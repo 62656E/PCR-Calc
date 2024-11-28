@@ -14,11 +14,11 @@ st.markdown("All volumes given in uL. The calculator assumes 40X yellow sample b
 st.sidebar.header('PCR Reaction Information')
 st.sidebar.write('Enter the following information:')
 st.sidebar.write('1. Total volume of the PCR reaction in uL')
-reaction_vol = st.sidebar.multiselect('Reaction Volume', [10, 20])
+reaction_vol = st.sidebar.selectbox('Reaction Volume', [10, 20])
 st.sidebar.write('2. Number of primer pairs')
+primer_pairs = st.sidebar.number_input('Number of Primer Pairs', min_value = 1, value = 1)
 st.sidebar.write('3. Number of samples')
 samples = st.sidebar.number_input('Number of Samples', min_value = 1, step=1)
-primer_pairs = st.sidebar.number_input('Number of Primer Pairs', min_value = 1, value = 1)
 st.sidebar.write('4. Number of replicates')
 reps = st.sidebar.number_input('Number of Replicates', min_value = 1, step=1)
 
@@ -42,7 +42,7 @@ st.sidebar.header('Controls')
 controls = st.sidebar.checkbox('Include Controls')
 
 # Calculate plate layout based on user input
-plate_layout, vol_plate_layout = pcr.plate_layout(reaction_vol, samples, primer_pairs, reps, controls)
+plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(reaction_vol, samples, primer_pairs, reps, controls)
 
 # Display plate_layout and vol_plate_layout in a table
 st.header('Plate Layout:')
