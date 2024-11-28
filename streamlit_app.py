@@ -15,10 +15,17 @@ no_samples = st.sidebar.number_input('Number of samples per gene (primer pair)')
 # Create output dataframe
 data = pd.DataFrame(columns = ["Gene", "YSBVol", "DNAVol"])
 
-# Fetch gene/primer pair names
-gene_names = [] 
-for i in range(no_genes):
-    gene_name = st.sidebar.text_input(f'Gene {i+1} name', f'Gene {i+1}')
+# Request the names of each gene
+if no_genes > 0:
+    
+    # Dictionary to store gene names
+    gene_names = {}
+    
+    for i in range(1, no_genes + 1):
+        gene_name = st.text_input(f"Gene {i} name:", key=f"gene_{i}")
+        gene_names[f"Gene {i}"] = gene_name
+
+
 
 
 
