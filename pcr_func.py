@@ -12,6 +12,7 @@ def dna_vol_calc(reaction_vol, no_samples, dna_conc):
     """
     This function calculates the volume of DNA to add to a given volume of yellow sample buffer for SYBR Green based qPCR.
     """
+    if reaction_vol == 10 
 
 
             
