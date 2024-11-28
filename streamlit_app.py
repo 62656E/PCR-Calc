@@ -5,6 +5,7 @@ from pcr_func import ninetysix_plate_planner
 from io import BytesIO
 import pcr_func as pcr
 from PIL import Image
+import base64
 
 # Title Streamlit app
 st.title("SYBR Green qPCR Calculator")
@@ -61,3 +62,21 @@ if st.sidebar.button("Calculate Plate Layout"):
     st.dataframe(plate_layout)
     st.header("Volume Plate Layout:")
     st.dataframe(vol_plate_layout)
+    
+# Save the plate layout and volume layout as CSV files
+if st.sidebar.button("Save Plate Layout"):
+    csv = plate_layout.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="plate_layout.csv">Download Plate Layout as CSV</a>'
+    st.markdown(href, unsafe_allow_html=True)
+
+if st.sidebar.button("Save Volume Plate Layout"):
+    csv = vol_plate_layout.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="vol_plate_layout.csv">Download Volume Plate Layout as CSV</a>'
+    st.markdown(href, unsafe_allow_html=True)
+
+# Add reset button
+if st.sidebar.button("Reset"):
+    st.caching.clear_cache()
+    st.experimental_rerun()
