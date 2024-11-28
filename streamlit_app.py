@@ -30,7 +30,6 @@ gene_names = []
 for primer_index in range(primer_pairs):
     gene_name = st.sidebar.text_input(f"Gene name for Primer Pair {primer_index + 1}")
     gene_names.append(gene_name)
-    gene_names.append(gene_name)
 
 # Get DNA concentration for each sample from user
 st.sidebar.header("DNA Concentration Information")
