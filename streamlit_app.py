@@ -72,7 +72,7 @@ if st.sidebar.button("Calculate Plate Layout"):
     layout_buffer.seek(0)
     
     volume_buffer = BytesIO()
-    plate_layout.to_csv(volume_buffer, index=False)
+    vol_plate_layout.to_csv(volume_buffer, index=False)
     volume_buffer.seek(0)
     
 st.download_button(
