@@ -1,10 +1,9 @@
 import streamlit as st
-import pandas as pd
 import pcr_func as pcr
 from io import BytesIO
 import pcr_func as pcr
-from PIL import Image
 import base64
+
 
 # Title Streamlit app
 st.title("SYBR Green qPCR Calculator")
@@ -67,17 +66,28 @@ if st.sidebar.button("Calculate Plate Layout"):
     st.dataframe(vol_plate_layout)
 
 # Save the plate layout and volume layout as CSV files
-if st.button("Save Plate Layout"):
-    csv = plate_layout.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()
-    href = f'<a href="data:file/csv;base64,{b64}" download="plate_layout.csv">Download Plate Layout as CSV</a>'
-    st.markdown(href, unsafe_allow_html=True)
 
-if st.button("Save Volume Plate Layout"):
-    csv = vol_plate_layout.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()
-    href = f'<a href="data:file/csv;base64,{b64}" download="vol_plate_layout.csv">Download Volume Plate Layout as CSV</a>'
-    st.markdown(href, unsafe_allow_html=True)
+    layout_buffer = BytesIO()
+    plate_layout.to_csv(layout_buffer, index=False)
+    layout_buffer.seek(0)
+    
+    volume_buffer = BytesIO()
+    plate_layout.to_csv(volume_buffer, index=False)
+    volume_buffer.seek(0)
+    
+st.download_button(
+    label="Download Plate Layout",
+    data=layout_buffer,
+    file_name="plate_layout.csv",
+    mime="text/csv",
+)
+
+st.download_button(
+    label="Download Volume Layout",
+    data=volume_buffer,
+    file_name="volume_layout.csv",
+    mime="text/csv",
+)
 
 # Add reset button
 if st.sidebar.button("Reset"):
