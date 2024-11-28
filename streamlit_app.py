@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import pcr_func as pcr
-from pcr_func import ninetysix_plate_planner
 from io import BytesIO
 import pcr_func as pcr
 from PIL import Image
@@ -48,7 +47,7 @@ with st.expander("Control Information", expanded=True):
 
 # Calculate plate layout based on user input
 if st.sidebar.button("Calculate Plate Layout"):
-    plate_layout, vol_plate_layout = ninetysix_plate_planner(
+    plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(
         samples, 
         dna_concs, 
         reaction_vol, 
@@ -61,7 +60,7 @@ if st.sidebar.button("Calculate Plate Layout"):
     st.header("Volume Plate Layout:")
     st.markdown("Format of below cells is gene/primer pair name-sample number-repeat.")
     # Display the volume layout for each well in the 96-well plate
-    st.dataframe(plate_layout)
+    st.dataframe(vol_plate_layout)
     st.header("Volume Plate Layout:")
     st.dataframe(vol_plate_layout)
     
@@ -80,5 +79,4 @@ if st.button("Save Volume Plate Layout"):
 
 # Add reset button
 if st.sidebar.button("Reset"):
-    st.caching.clear_cache()
     st.experimental_rerun()
