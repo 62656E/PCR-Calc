@@ -155,4 +155,6 @@ def ninetysix_plate_planner(
             f"{dna_vol:.2f} uL DNA, {sybr_vol:.2f} uL SYBR, {primer_vol:.2f} uL primers, {water_vol:.2f} uL water"
         )
         well_index += 1
+    
+    return plate_layout, vol_plate_layout
 
