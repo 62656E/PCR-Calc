@@ -21,7 +21,7 @@ def temp_per_well(reaction_vol, dna_conc):
     # Calculate the volume of DNA needed per well for a given sample
     dna_vol = (final_conc * reaction_vol) / dna_conc
     
-    return dna_vol  # Return the volume of DNA needed per well
+    return int(dna_vol)  # Return the volume of DNA needed per well
 
 
 def total_dna_vol(dna_vol, reps, primer_pairs):
@@ -127,9 +127,9 @@ def ninetysix_plate_planner(
                 dna_vol = temp_per_well(reaction_vol, dna_concs[sample - 1])
                 sybr_vol = 10 if reaction_vol == 20 else 5
                 primer_vol = 1 if reaction_vol == 20 else 0.5
-                water_vol = reaction_vol - dna_vol - sybr_vol - primer_vol
+                water_vol = int(reaction_vol) - int(dna_vol) - int(sybr_vol) - int(primer_vol)
                 vol_plate_layout.loc[row, col] = (
-                    f"{dna_vol}-{sybr_vol}-{primer_vol}-{water_vol}"
+                    f"{int(dna_vol)}-{(int(sybr_vol)}-{int(primer_vol)}-{(int(water_vol)}"
                 )
             row_index += 1
 

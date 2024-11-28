@@ -60,7 +60,7 @@ if st.sidebar.button("Calculate Plate Layout"):
     st.header("Volume Plate Layout:")
     st.markdown("Format of below cells is gene/primer pair name-sample number-repeat.")
     # Display the volume layout for each well in the 96-well plate
-    st.dataframe(vol_plate_layout)
+    st.dataframe(plate_layout)
     st.header("Volume Plate Layout:")
     st.dataframe(vol_plate_layout)
     
