@@ -22,7 +22,7 @@ if no_genes > 0:
     gene_names = {}
     
     # Loop through the number of genes and request the gene names
-    for i in range(1, no_genes + 1):
+    for i in range(1, int(no_genes) + 1):
         gene_name = st.text_input(f"Gene {i} name:", key=f"gene_{i}")
         gene_names[f"Gene {i}"] = gene_name
 
