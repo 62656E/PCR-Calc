@@ -34,7 +34,7 @@ st.sidebar.header('DNA Concentration Information')
 st.sidebar.write('Enter the DNA concentration for each sample in ng/uL:')
 dna_conc = []
 for sample in range(samples):
-    conc = st.sidebar.number_input(f'DNA Concentration for Sample {sample + 1}', min_value = 0.1, step = 0.1)
+    conc = st.sidebar.number_input(f'DNA Concentration for Sample {sample + 1}')
     dna_conc.append(conc)
     
 # Check if user wants to include controls
@@ -42,13 +42,13 @@ st.sidebar.header('Controls')
 controls = st.sidebar.checkbox('Include Controls')
 
 # Calculate plate layout based on user input
-plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(reaction_vol, samples, primer_pairs, reps, controls)
-
-# Display plate_layout and vol_plate_layout in a table
-st.header('Plate Layout:')
-st.dataframe(plate_layout)
-st.header('Volume Plate Layout:')
-st.dataframe(vol_plate_layout)
+if st.sidebar.button('Calculate Plate Layout'):
+    plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(reaction_vol, samples, primer_pairs, reps, controls)
+    # Display plate_layout and vol_plate_layout in a table
+    st.header('Plate Layout:')
+    st.dataframe(plate_layout)
+    st.header('Volume Plate Layout:')
+    st.dataframe(vol_plate_layout)
 
 
 
