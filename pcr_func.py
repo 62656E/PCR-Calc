@@ -79,8 +79,8 @@ def ninetysix_plate_planner(sample_no, dna_concs, reaction_vol, genes, reps, inc
     # Define the dataframe with the rows and columns of the 96 well plate
     rows = ["A","B","C","D","E","F","G","H"]
     columns = list(range(1,13))
-    plate_layout = pd.dataframe(index = rows, columns = columns)
-    vol_plate_layout = pd.dataframe(index = rows, columns = columns)
+    plate_layout = pd.DataFrame(index = rows, columns = columns)
+    vol_plate_layout = pd.DataFrame(index = rows, columns = columns)
     
     # Calculate the total number of reactions, maximum number of wells and control wells
     total_reactions = sample_no * reps * len(genes)
