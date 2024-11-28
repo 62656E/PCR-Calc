@@ -124,21 +124,21 @@ def ninetysix_plate_planner(
                 well_index += 1
 
     # Add control wells to the dataframe
-    cont_index = well_index
     if inc_controls:
+        cont_index = well_index  # Start control wells from the next available index
         for gene in genes:
-            row = "H"
-            col = columns[cont_index]
+            row = rows[cont_index // 12]
+            col = columns[cont_index % 12]
             plate_layout.loc[row, col] = f"NTC_{gene}"
             cont_index += 1
         for gene in genes:
-            row = "H"
-            col = columns[cont_index]
+            row = rows[cont_index // 12]
+            col = columns[cont_index % 12]
             plate_layout.loc[row, col] = f"PC_{gene}"
             cont_index += 1
         for gene in genes:
-            row = "H"
-            col = columns[cont_index]
+            row = rows[cont_index // 12]
+            col = columns[cont_index % 12]
             plate_layout.loc[row, col] = f"NC_{gene}"
             cont_index += 1
 
