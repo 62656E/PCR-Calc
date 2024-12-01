@@ -46,7 +46,7 @@ with st.expander("Control Information", expanded=True):
     inc_controls = st.checkbox("Include Controls")
 
 # Calculate plate layout based on user input
-if st.sidebar.button("Calculate Plate Layout"):
+if st.button("Calculate Plate Layout"):
     plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(
         samples, dna_concs, reaction_vol, gene_names, reps, inc_controls
     )
