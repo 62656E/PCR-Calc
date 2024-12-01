@@ -64,3 +64,6 @@ if st.button("Calculate Plate Layout"):
         "vol_plate_layout": vol_plate_layout
     }
 
+    # Save data to a pickle file
+    with open("data.pkl", "wb") as f:
+        pkl.dump(data, f)
