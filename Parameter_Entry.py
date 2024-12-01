@@ -45,3 +45,22 @@ with st.expander("DNA Concentration Information", expanded=True):
 with st.expander("Control Information", expanded=True):
     inc_controls = st.checkbox("Include Controls")
 
+# Calculate plate layout based on user input
+if st.sidebar.button("Calculate Plate Layout"):
+    plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(
+        samples, dna_concs, reaction_vol, gene_names, reps, inc_controls
+    )
+    
+    # Pack data into a dictionary
+    data = {
+        "reaction_vol": reaction_vol,
+        "primer_pairs": primer_pairs,
+        "samples": samples,
+        "reps": reps,
+        "gene_names": gene_names,
+        "dna_concs": dna_concs,
+        "controls": inc_controls,
+        "plate_layout": plate_layout,
+        "vol_plate_layout": vol_plate_layout
+    }
+
