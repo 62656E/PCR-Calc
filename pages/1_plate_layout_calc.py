@@ -63,5 +63,5 @@ st.download_button(
 )
 
 # Add reset button
-if st.sidebar.button("Reset"):
+if st.button("Reset"):
     st.experimental_rerun()
