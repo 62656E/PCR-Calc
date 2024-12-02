@@ -4,15 +4,6 @@ import pickle as pkl
 import pandas as pd
 import streamlit_funcs as sf
 
-# Hardcode data for testing
-reaction_vol = 20
-primer_pairs = 3
-samples = 12
-reps = 3
-gene_names = ["RPL13", "YWHAZ", "GAPDH"]
-dna_concs = [5,5,5,5,5,5,5,5,5,5,5,5]
-inc_controls = True
-
 # Title page
 st.title("SYBR Green qPCR calculator")
 
@@ -57,6 +48,16 @@ with st.expander("Control Information", expanded=True):
 
 # Calculate plate layout based on user input
 if st.button("Calculate Plate Layout"):
+    
+    # Hardcoded values for testing
+    reaction_vol = 20
+    primer_pairs = 3
+    samples = 12
+    reps = 3
+    gene_names = ["RPL13", "YWHAZ", "GAPDH"]
+    dna_concs = [5,5,5,5,5,5,5,5,5,5,5,5]
+    inc_controls = True
+    
     plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(
         samples, dna_concs, reaction_vol, gene_names, reps, inc_controls
     )
