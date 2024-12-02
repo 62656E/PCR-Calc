@@ -38,8 +38,8 @@ for sample in range(samples):
 reagent_vols = pd.DataFrame(
     {
         "Sample": range(samples),
-        "Total DNA Volume (uL)": [total_dna_vols[sample] for sample in samples],
-        "40X YSB Volume (uL)": [ysb_vols[sample] for sample in samples],
+        "Total DNA Volume (uL)": [total_dna_vols[sample] for sample in range(samples)],
+        "40X YSB Volume (uL)": [ysb_vols[sample] for sample in range(samples)],
     }
 )
 
