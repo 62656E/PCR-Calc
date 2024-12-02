@@ -42,6 +42,10 @@ for sample, vols in master_mix_vols.items():
 ysb_vols_df *= 1.1
 master_mix_vols_df *= 1.1
 
+# Ensure DF indexing is correct
+ysb_vols_df = ysb_vols_df.T
+master_mix_vols = master_mix_vols_df.T
+
 # Display both dataframes
 st.write("YSB and Sample DNA Volumes")
 st.write(ysb_vols_df)
