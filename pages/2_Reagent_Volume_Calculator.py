@@ -10,22 +10,12 @@ with open("data.pkl", "rb") as f:
     data = pkl.load(f)
 
 # Unpack data
-reaction_vol = data["reaction_vol"]
-primer_pairs = data["primer_pairs"]
+reagent_vols = data["reagent_vols"]
+master_mix_vols = data["master_mix_vols"]
 samples = data["samples"]
-reps = data["reps"]
-gene_names = data["gene_names"]
-dna_concs = data["dna_concs"]
-inc_controls = data["controls"]
 
-# Print data to check it has been loaded correctly
-print("RVC Reaction Vol " + str(reaction_vol))
-print("RVC PP" + str(primer_pairs))
-print("RVC samples " + str(samples))
-print("RVC reps " + str(reps))
-print("RVC Genes" + str(gene_names))
-print("RVC Concs" + str(dna_concs))
-print("RVC Cont" + str(inc_controls))
+print("RVC Reagent Volumes " + str(reagent_vols))
+print("RVC Master Mix Volumes " + str(master_mix_vols))
 
 # Title page
 st.title("Reagent Volumes")
@@ -33,56 +23,25 @@ st.markdown(
     "All volumes given in uL. The calculator assumes 40X yellow sample buffer is being used."
 )
 
-# Calculate total DNA volume needed per sample
-total_dna_vols = {}
-for sample in range(samples):
-    total_dna_vols[sample] = pcr.total_dna_vol(
-        pcr.temp_per_well(reaction_vol, dna_concs[sample]), reps, primer_pairs
-    )
-
-print("RVC Total DNA Volumes " + str(total_dna_vols))
-
-# Calculate 40X yellow sample buffer volume needed per sample
-ysb_vols = {}
-for sample in range(samples):
-    ysb_vols[sample] = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
-    
-print("RVC YSB Volumes " + str(ysb_vols))
-
-# Create dataframe for reagent volumes
-reagent_vols = pd.DataFrame(
-    {
-        "Sample": range(samples),
-        "Total DNA Volume (uL)": [total_dna_vols[sample] for sample in range(samples)],
-        "40X YSB Volume (uL)": [ysb_vols[sample] for sample in range(samples)],
-    }
+# Create data frames
+reagent_vol_df = pd.DataFrame(
+        columns=[range(1, samples + 1)],
+        index=["Template DNA", "YSB", "Total"],
 )
 
-# Calculate total volume of master mix, and its constituents, needed for all reactions
-master_mix_vols = pcr.master_mix_vols(
-    reaction_vol, gene_names, samples, reps, inc_controls
+master_mix_vols_df = pd.DataFrame(
+    columns = range(1, samples + 1),
+    index = ["SYBR Green", "Forward Primer", "Reverse Primer", "Water", "Total"]
 )
 
-# Create dataframe for master mix volumes
-master_mix_vols = pd.DataFrame(
-    columns=gene_names,
-    index=["SYBR Green", "Forward Primer", "Reverse Primer", "Water"],
-)
-
-# Populate dataframe with master mix volumes
-for gene in gene_names:
-    master_mix_vols.loc["SYBR Green", gene] = master_mix_vols[gene]["SYBR Green"]
-    master_mix_vols.loc["Forward Primer", gene] = master_mix_vols[gene][
-        "Forward Primer"
-    ]
-    master_mix_vols.loc["Reverse Primer", gene] = master_mix_vols[gene][
-        "Reverse Primer"
-    ]
-    master_mix_vols.loc["Water", gene] = master_mix_vols[gene]["Water"]
+# Populate data frames
+for sample in range(1, samples + 1):
+    reagent_vol_df[sample] = reagent_vols[sample]
+    master_mix_vols_df[sample] = master_mix_vols[sample]
 
 # Multiply all reagent volumes by 10% to account for pipetting error
-reagent_vols *= 1.1
-master_mix_vols *= 1.1
+reagent_vol_df *= 1.1
+master_mix_vols_df *= 1.1
 
 # Display both dataframes
 st.write("Reagent Volumes")

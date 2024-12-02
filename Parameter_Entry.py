@@ -56,6 +56,27 @@ if st.button("Calculate Plate Layout"):
         samples, dna_concs, reaction_vol, gene_names, reps, inc_controls
     )
 
+    # Calculate total DNA volume needed per sample
+    total_dna_vols = {}
+    for sample in range(samples):
+        total_dna_vols[sample] = pcr.total_dna_vol(
+            pcr.temp_per_well(reaction_vol, dna_concs[sample]), reps, primer_pairs
+        )
+
+    print("RVC Total DNA Volumes " + str(total_dna_vols))
+
+    # Calculate 40X yellow sample buffer volume needed per sample
+    ysb_vols = {}
+    for sample in range(samples):
+        ysb_vols[sample] = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
+
+    print("RVC YSB Volumes " + str(ysb_vols))
+
+    # Calculate total volume of master mix, and its constituents, needed for all reactions
+    master_mix_vols = pcr.master_mix_vols(
+        reaction_vol, gene_names, samples, reps, inc_controls
+    )
+
     # Pack data into a dictionary
     data = {
         "reaction_vol": reaction_vol,
@@ -67,6 +88,9 @@ if st.button("Calculate Plate Layout"):
         "controls": inc_controls,
         "plate_layout": plate_layout,
         "vol_plate_layout": vol_plate_layout,
+        "total_dna_vols": total_dna_vols,
+        "ysb_vols": ysb_vols,
+        "master_mix_vols": master_mix_vols,
     }
 
     # Save data to a pickle file

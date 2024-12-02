@@ -157,6 +157,23 @@ def ninetysix_plate_planner(
         for gene in genes:
             plate_layout.loc[control_row, columns[cont_index + 2]] = f"{gene}_NC"
             cont_index += 1
+            
+    # Populate volume plate layout with volumes for control wells
+    if inc_controls:
+        
+        # Find all wells with NTC and calculate volumes
+        ntc_wells = plate_layout[plate_layout == "NTC"].stack().index.tolist()
+        
+        for well in ntc_wells:
+            row, col = well
+            water_vol = (
+                int(reaction_vol)
+                - int(sybr_vol)
+                - int((primer_vol) * 2)
+            )
+            vol_plate_layout.loc[row, col] = (
+                f"{int(sybr_vol)} SYBR -{int(primer_vol)} Each Primer -{int(water_vol)} Water"
+            )
 
     return plate_layout, vol_plate_layout
 
