@@ -163,8 +163,9 @@ def ninetysix_plate_planner(
     if inc_controls:
 
         # Find all wells with NTC and calculate volumes
-        ntc_wells = plate_layout[plate_layout.applymap(lambda x: bool(re.search(r'ntc', str(x), re.IGNORECASE)))]
+        ntc_wells = plate_layout[plate_layout.applymap(lambda x: bool(re.search(r'ntc', str(x), re.IGNORECASE)))].stack().index.tolist()
 
+    if ntc_wells:
         for well in ntc_wells:
             row, col = well
             water_vol = int(reaction_vol) - int(sybr_vol) - int((primer_vol) * 2)
