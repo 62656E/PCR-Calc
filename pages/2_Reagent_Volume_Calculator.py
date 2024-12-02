@@ -23,11 +23,6 @@ st.markdown(
     "All volumes given in uL. The calculator assumes 40X yellow sample buffer is being used."
 )
 
-# Calculate template DNA volume needed per sample
-dna_vols = {}
-for sample in range(samples):
-    dna_vols[sample] = pcr.dna_vol_calc(reaction_vol, dna_concs[sample])
-
 # Calculate total DNA volume needed per sample
 total_dna_vols = {}
 for sample in range(samples):
