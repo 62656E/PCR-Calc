@@ -34,7 +34,9 @@ master_mix_vols_df = pd.DataFrame(
 # Populate data frames
 for sample in range(1, samples + 1):
     ysb_vols_df[sample] = ysb_vols[sample]
-    master_mix_vols_df[sample] = master_mix_vols[sample]
+
+for sample, vols in master_mix_vols.items():
+    master_mix_vols_df[sample] = pd.Series(vols)
 
 # Multiply all reagent volumes by 10% to account for pipetting error
 ysb_vols_df *= 1.1
