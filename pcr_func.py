@@ -130,7 +130,10 @@ def ninetysix_plate_planner(
                 sybr_vol = 10 if reaction_vol == 20 else 5
                 primer_vol = 1 if reaction_vol == 20 else 0.5
                 water_vol = (
-                    int(reaction_vol) - int(dna_vol) - int(sybr_vol) - int((primer_vol)*2)
+                    int(reaction_vol)
+                    - int(dna_vol)
+                    - int(sybr_vol)
+                    - int((primer_vol) * 2)
                 )
                 vol_plate_layout.loc[row, col] = (
                     f"{int(dna_vol)} DNA -{int(sybr_vol)} SYBR -{int(primer_vol)} Each Primer -{int(water_vol)} Water"
@@ -157,11 +160,13 @@ def ninetysix_plate_planner(
 
     return plate_layout, vol_plate_layout
 
+
 # Master mix volumes calculator
+
 
 def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
     """
-    This function calculates the volumes of master mix components needed for a given number of reactions.  
+    This function calculates the volumes of master mix components needed for a given number of reactions.
 
     Parameters:
     reaction_vol: int, the total volume of the PCR reaction in uL
@@ -179,14 +184,14 @@ def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
         "SYBR Green": 10,
         "Forward Primer": 1,
         "Reverse Primer": 1,
-        "Nuclease-free Water": 6.5
+        "Nuclease-free Water": 6.5,
     }
 
     master_mix_10ul = {
         "SYBR Green": 5,
         "Forward Primer": 0.5,
         "Reverse Primer": 0.5,
-        "Nuclease-free Water": 3.25
+        "Nuclease-free Water": 3.25,
     }
 
     # Calculate the total number of reactions per gene/primer pair
@@ -194,18 +199,24 @@ def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
 
     # Add control reactions if inc_controls is True
     if inc_controls:
-        total_reactions_per_primer_pair += (3 * len(genes)) # 3 control reactions per gene
+        total_reactions_per_primer_pair += 3 * len(
+            genes
+        )  # 3 control reactions per gene
 
-    # Calculate the volumes of master mix components for each gene/primer_pair 
+    # Calculate the volumes of master mix components for each gene/primer_pair
     master_mix_vols = {}
     for gene in genes:
         if reaction_vol == 20:
-            master_mix_vols[gene] = {k: v * total_reactions_per_primer_pair for k, v in master_mix_20ul.items()}       
+            master_mix_vols[gene] = {
+                k: v * total_reactions_per_primer_pair
+                for k, v in master_mix_20ul.items()
+            }
         elif reaction_vol == 10:
-            master_mix_vols[gene] = {k: v * total_reactions_per_primer_pair for k, v in master_mix_10ul.items()}
+            master_mix_vols[gene] = {
+                k: v * total_reactions_per_primer_pair
+                for k, v in master_mix_10ul.items()
+            }
         else:
             raise ValueError("Unsupported reaction volume. Please use 10 or 20 uL.")
-        
-    return master_mix_vols
-        
 
+    return master_mix_vols

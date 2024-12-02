@@ -36,12 +36,18 @@ st.markdown(
 # Calculate total DNA volume needed per sample
 total_dna_vols = {}
 for sample in range(samples):
-    total_dna_vols[sample] = pcr.total_dna_vol(pcr.temp_per_well(reaction_vol, dna_concs[sample]), reps, primer_pairs)
+    total_dna_vols[sample] = pcr.total_dna_vol(
+        pcr.temp_per_well(reaction_vol, dna_concs[sample]), reps, primer_pairs
+    )
+
+print("RVC Total DNA Volumes " + str(total_dna_vols))
 
 # Calculate 40X yellow sample buffer volume needed per sample
 ysb_vols = {}
 for sample in range(samples):
     ysb_vols[sample] = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
+    
+print("RVC YSB Volumes " + str(ysb_vols))
 
 # Create dataframe for reagent volumes
 reagent_vols = pd.DataFrame(
@@ -53,18 +59,27 @@ reagent_vols = pd.DataFrame(
 )
 
 # Calculate total volume of master mix, and its constituents, needed for all reactions
-master_mix_vols = pcr.master_mix_vols(reaction_vol, gene_names, samples, reps, inc_controls)
+master_mix_vols = pcr.master_mix_vols(
+    reaction_vol, gene_names, samples, reps, inc_controls
+)
 
 # Create dataframe for master mix volumes
-master_mix_vols = pd.DataFrame(columns=gene_names, index = ["SYBR Green", "Forward Primer", "Reverse Primer", "Water"])
+master_mix_vols = pd.DataFrame(
+    columns=gene_names,
+    index=["SYBR Green", "Forward Primer", "Reverse Primer", "Water"],
+)
 
 # Populate dataframe with master mix volumes
 for gene in gene_names:
     master_mix_vols.loc["SYBR Green", gene] = master_mix_vols[gene]["SYBR Green"]
-    master_mix_vols.loc["Forward Primer", gene] = master_mix_vols[gene]["Forward Primer"]
-    master_mix_vols.loc["Reverse Primer", gene] = master_mix_vols[gene]["Reverse Primer"]
+    master_mix_vols.loc["Forward Primer", gene] = master_mix_vols[gene][
+        "Forward Primer"
+    ]
+    master_mix_vols.loc["Reverse Primer", gene] = master_mix_vols[gene][
+        "Reverse Primer"
+    ]
     master_mix_vols.loc["Water", gene] = master_mix_vols[gene]["Water"]
-    
+
 # Multiply all reagent volumes by 10% to account for pipetting error
 reagent_vols *= 1.1
 master_mix_vols *= 1.1
@@ -102,12 +117,3 @@ st.download_button(
 # Add reset button
 if st.button("Reset"):
     st.experimental_rerun()
-
-
-
-
-
-
-
-
-
