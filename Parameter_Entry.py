@@ -2,6 +2,7 @@ import streamlit as st
 import pcr_func as pcr
 import pickle as pkl 
 import pandas as pd
+import streamlit_funcs as sf
 
 # Title page
 st.title("SYBR Green qPCR calculator")
@@ -67,3 +68,6 @@ if st.button("Calculate Plate Layout"):
     # Save data to a pickle file
     with open("data.pkl", "wb") as f:
         pkl.dump(data, f)
+        
+    #Navigate to the plate layout page
+    sf.nav_page("Plate_Layout")
