@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#50fa7b"  # Green
+backgroundColor = "#282a36"  # Dark Background
+secondaryBackgroundColor = "#44475a"  # Secondary Background
+textColor = "#f8f8f2"  # Foreground
+font = "monospace"  # Dracula often pairs well with monospace fonts
