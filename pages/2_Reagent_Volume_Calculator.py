@@ -70,10 +70,6 @@ st.write(reagent_vols)
 st.write("Master Mix Volumes")
 st.write(master_mix_vols)
 
-# Combine both dataframes 
-st.write("Combined Volumes")
-combined_vols = pd.concat([reagent_vols, master_mix_vols])
-
 # Add download links for reagent volumes
 
 reagent_buffer = BytesIO()
