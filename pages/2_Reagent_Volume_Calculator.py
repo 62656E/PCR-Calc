@@ -90,8 +90,6 @@ st.download_button(
     mime="text/csv",
 )
 
-
-
 # Add reset button
 if st.button("Reset"):
     st.experimental_rerun()
