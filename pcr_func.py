@@ -160,19 +160,19 @@ def ninetysix_plate_planner(
 # Master mix volumes calculator
 
 def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
-"""
-This function calculates the volumes of master mix components needed for a given number of reactions.  
+    """
+    This function calculates the volumes of master mix components needed for a given number of reactions.  
 
-Parameters:
-reaction_vol: int, the total volume of the PCR reaction in uL
-genes: list, the names of the genes/primer pairs in use
-samples: int, the number of samples
-reps: int, the number of replicates
-inc_controls: boolean, whether to include controls in the plate layout.
+    Parameters:
+    reaction_vol: int, the total volume of the PCR reaction in uL
+    genes: list, the names of the genes/primer pairs in use
+    samples: int, the number of samples
+    reps: int, the number of replicates
+    inc_controls: boolean, whether to include controls in the plate layout.
 
-Returns:
-master_mix_vols: dict, a dictionary with the volumes of the master mix components
-"""
+    Returns:
+    master_mix_vols: dict, a dictionary with the volumes of the master mix components
+    """
 
     # Dictionary of master mix components and their volumes in uL
     master_mix_20ul = {
