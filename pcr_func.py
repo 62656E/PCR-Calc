@@ -1,5 +1,6 @@
 # Import necessary libraries
 import pandas as pd
+import re 
 
 
 def temp_per_well(reaction_vol, dna_conc):
@@ -162,7 +163,7 @@ def ninetysix_plate_planner(
     if inc_controls:
 
         # Find all wells with NTC and calculate volumes
-        ntc_wells = plate_layout[plate_layout == "NTC"].stack().index.tolist()
+        ntc_wells = plate_layout[plate_layout.applymap(lambda x: bool(re.search(r'ntc', str(x), re.IGNORECASE)))]
 
         for well in ntc_wells:
             row, col = well
