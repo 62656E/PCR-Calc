@@ -44,7 +44,7 @@ reagent_vols = pd.DataFrame(
 )
 
 # Calculate total volume of master mix, and its constituents, needed for all reactions
-master_mix_vols = pcr.master_mix_vols(reaction_vol, genes, samples, reps, inc_controls)
+master_mix_vols = pcr.master_mix_vols(reaction_vol, gene_names, samples, reps, inc_controls)
 
 # Create dataframe for master mix volumes
 master_mix_vols = pd.DataFrame(columns=Gene_names, rows = ["SYBR Green", "Forward Primer", "Reverse Primer", "Water"])
