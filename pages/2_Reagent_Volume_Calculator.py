@@ -26,7 +26,7 @@ st.markdown(
 # Calculate template DNA volume needed per sample
 dna_vols = {}
 for sample in range(samples):
-    dna_vols[sample] = pcr.dna_vol_calc(dna_concs[sample], reaction_vol)
+    dna_vols[sample] = pcr.dna_vol_calc(reaction_vol, dna_concs[sample])
 
 # Calculate total DNA volume needed per sample
 total_dna_vols = {}
