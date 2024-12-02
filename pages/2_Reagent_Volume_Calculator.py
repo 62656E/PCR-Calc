@@ -3,6 +3,7 @@ import pcr_func as pcr
 import streamlit as st
 from io import BytesIO
 import base64
+import pandas as pd
 
 # Load data from pickle file
 with open("data.pkl", "rb") as f:
