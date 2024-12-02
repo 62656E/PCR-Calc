@@ -190,7 +190,7 @@ master_mix_vols: dict, a dictionary with the volumes of the master mix component
     }
 
     # Calculate the total number of reactions per gene/primer pair
-    total_reactions_per_primer_pair = (samples * reps) * genes
+    total_reactions_per_primer_pair = (samples * reps) * len(genes)
 
     # Add control reactions if inc_controls is True
     if inc_controls:
