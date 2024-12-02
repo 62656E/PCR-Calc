@@ -25,13 +25,13 @@ st.markdown(
 
 # Create data frames
 reagent_vol_df = pd.DataFrame(
-        columns=[range(1, samples + 1)],
-        index=["Template DNA", "YSB", "Total"],
+    columns=[range(1, samples + 1)],
+    index=["Template DNA", "YSB", "Total"],
 )
 
 master_mix_vols_df = pd.DataFrame(
-    columns = range(1, samples + 1),
-    index = ["SYBR Green", "Forward Primer", "Reverse Primer", "Water", "Total"]
+    columns=range(1, samples + 1),
+    index=["SYBR Green", "Forward Primer", "Reverse Primer", "Water", "Total"],
 )
 
 # Populate data frames
