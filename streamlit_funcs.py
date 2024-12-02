@@ -1,6 +1,16 @@
 # Functions to enable alternatives to streamlits default functionality
 
-import streamlit as st
+from streamlit.components.v1 import html
+"""
+Function to navigate between streamlit pages using a javascript script to find and click the next page link
+
+Parameters:
+page_name: str, the name of the page to navigate to
+timeout_secs: int, the number of seconds to wait before giving up on navigation
+
+Returns:
+None
+"""
 
 def nav_page(page_name, timeout_secs=3):
     nav_script = """
