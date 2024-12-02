@@ -19,13 +19,13 @@ dna_concs = data["dna_concs"]
 inc_controls = data["controls"]
 
 # Print data to check it has been loaded correctly
-print(reaction_vol)
-print(primer_pairs)
-print(samples)
-print(reps)
-print(gene_names)
-print(dna_concs)
-print(inc_controls)
+print("RVC Reaction Vol " + reaction_vol)
+print("RVC PP" + primer_pairs)
+print("RVC samples " + samples)
+print("RVC reps " + reps)
+print("RVC Genes" + gene_names)
+print("RVC Concs" + dna_concs)
+print("RVC Cont" + inc_controls)
 
 # Title page
 st.title("Reagent Volumes")
