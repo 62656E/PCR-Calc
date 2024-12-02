@@ -26,7 +26,7 @@ st.markdown(
 # Calculate total DNA volume needed per sample
 total_dna_vols = {}
 for sample in range(samples):
-    total_dna_vols[sample] = pcr.total_dna_vol(pcr.temp_per_well(reaction_vol, dna_conc), reps, primer_pairs)
+    total_dna_vols[sample] = pcr.total_dna_vol(pcr.temp_per_well(reaction_vol, dna_concs), reps, primer_pairs)
 
 # Calculate 40X yellow sample buffer volume needed per sample
 ysb_vols = {}
