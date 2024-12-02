@@ -25,23 +25,23 @@ st.markdown(
 
 # Calculate template DNA volume needed per sample
 dna_vols = {}
-for sample in samples:
+for sample in range(samples):
     dna_vols[sample] = pcr.dna_vol_calc(dna_concs[sample], reaction_vol)
 
 # Calculate total DNA volume needed per sample
 total_dna_vols = {}
-for sample in samples:
+for sample in range(samples):
     total_dna_vols[sample] = pcr.total_dna_vol(dna_vols[sample], reps, primer_pairs)
 
 # Calculate 40X yellow sample buffer volume needed per sample
 ysb_vols = {}
-for sample in samples:
+for sample in range(samples):
     ysb_vols[sample] = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
 
 # Create dataframe for reagent volumes
 reagent_vols = pd.DataFrame(
     {
-        "Sample": samples,
+        "Sample": range(samples),
         "Total DNA Volume (uL)": [total_dna_vols[sample] for sample in samples],
         "40X YSB Volume (uL)": [ysb_vols[sample] for sample in samples],
     }
