@@ -18,6 +18,15 @@ gene_names = data["gene_names"]
 dna_concs = data["dna_concs"]
 inc_controls = data["controls"]
 
+# Print data to check it has been loaded correctly
+print(reaction_vol)
+print(primer_pairs)
+print(samples)
+print(reps)
+print(gene_names)
+print(dna_concs)
+print(inc_controls)
+
 # Title page
 st.title("Reagent Volumes")
 st.markdown(
