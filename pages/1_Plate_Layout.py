@@ -18,6 +18,7 @@ dna_concs = data["dna_concs"]
 inc_controls = data["controls"]
 plate_layout = data["plate_layout"]
 vol_plate_layout = data["vol_plate_layout"]
+ysb_vols = data["ysb_vols"]
 
 # Title page
 st.title("SYBR Green qPCR layout calculator")

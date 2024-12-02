@@ -12,6 +12,7 @@ with open("data.pkl", "rb") as f:
 # Unpack data
 reagent_vols = data["reagent_vols"]
 master_mix_vols = data["master_mix_vols"]
+ysb_vols = data["ysb_vols"]
 samples = data["samples"]
 
 print("RVC Reagent Volumes " + str(reagent_vols))

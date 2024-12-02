@@ -56,16 +56,16 @@ def ysb_vol_calc(reaction_vol, reps, primer_pairs):
     primer_pairs: int, the number of primer pairs
 
     Returns:
-    ysb_vol: float, the volume of 40X yellow sample buffer needed in uL
+    ysb_vols: float, the volume of 40X yellow sample buffer needed in uL
     """
 
     if reaction_vol == 10:
-        ysb_vol = (reps * primer_pairs) * 0.25
+        ysb_vols = (reps * primer_pairs) * 0.25
     elif reaction_vol == 20:
-        ysb_vol = (reps * primer_pairs) * 0.5
+        ysb_vols = (reps * primer_pairs) * 0.5
     else:
         raise ValueError("Unsupported reaction volume. Please use 10 or 20 uL.")
-    return ysb_vol
+    return ysb_vols
 
 
 def ninetysix_plate_planner(
