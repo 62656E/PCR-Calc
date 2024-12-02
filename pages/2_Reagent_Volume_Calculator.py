@@ -1,4 +1,4 @@
-import pickl as pkl
+import pickle as pkl
 import pcr_func as pcr
 import streamlit as st
 from io import BytesIO
