@@ -47,7 +47,7 @@ reagent_vols = pd.DataFrame(
 master_mix_vols = pcr.master_mix_vols(reaction_vol, gene_names, samples, reps, inc_controls)
 
 # Create dataframe for master mix volumes
-master_mix_vols = pd.DataFrame(columns=gene_names, rows = ["SYBR Green", "Forward Primer", "Reverse Primer", "Water"])
+master_mix_vols = pd.DataFrame(columns=gene_names, index = ["SYBR Green", "Forward Primer", "Reverse Primer", "Water"])
 
 # Populate dataframe with master mix volumes
 for gene in gene_names:
