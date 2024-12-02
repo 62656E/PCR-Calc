@@ -68,7 +68,7 @@ if st.button("Calculate Plate Layout"):
     # Calculate 40X yellow sample buffer volume needed per sample
     ysb_vols = {}
     for sample in range(samples):
-        ysb_vols[sample] = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
+        ysb_vols[sample + 1] = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
 
     print("RVC YSB Volumes " + str(ysb_vols))
 
