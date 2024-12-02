@@ -53,7 +53,7 @@ if st.button("Calculate Plate Layout"):
     reaction_vol = 20
     primer_pairs = 3
     samples = 12
-    reps = 3
+    reps = 2
     gene_names = ["RPL13", "YWHAZ", "GAPDH"]
     dna_concs = [5,5,5,5,5,5,5,5,5,5,5,5]
     inc_controls = True
