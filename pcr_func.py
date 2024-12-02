@@ -194,7 +194,7 @@ def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
 
     # Add control reactions if inc_controls is True
     if inc_controls:
-        total_reactions_per_primer_pair += (3 * genes) # 3 control reactions per gene
+        total_reactions_per_primer_pair += (3 * len(genes)) # 3 control reactions per gene
 
     # Calculate the volumes of master mix components for each gene/primer_pair 
     master_mix_vols = {}
