@@ -68,6 +68,18 @@ if st.button("Calculate Plate Layout"):
         reaction_vol, gene_names, samples, reps, inc_controls
     )
 
+    # Add st.write statements to display the data
+    st.write("Total DNA Volumes: " + str(total_dna_vols))
+    st.write("YSB Volumes: " + str(ysb_vols))
+    st.write("Master Mix Volumes: " + str(master_mix_vols))
+    st.write("reaction_vol: " + str(reaction_vol))
+    st.write("primer_pairs: " + str(primer_pairs))
+    st.write("samples: " + str(samples))
+    st.write("reps: " + str(reps))
+    st.write("gene_names: " + str(gene_names))
+    st.write("dna_concs: " + str(dna_concs))
+    st.write("inc_controls: " + str(inc_controls))
+    
     # Pack data into a dictionary
     data = {
         "reaction_vol": reaction_vol,
