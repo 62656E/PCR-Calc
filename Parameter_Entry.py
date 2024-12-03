@@ -61,7 +61,7 @@ if st.button("Calculate Plate Layout"):
     total_dna_vols = [pcr.total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol)]
 
     # Calculate YSB volumes per sample
-    ysb_vols = [pcr.ysb_volumes(reaction_vol, reps, primer_pairs)]
+    ysb_vols = [pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)]
 
     # Calculate master mix volumes
     master_mix_vols = pcr.master_mix_vols(
