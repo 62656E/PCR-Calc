@@ -60,8 +60,8 @@ def ysb_vol_calc(reaction_vol, reps, primer_pairs):
     Returns:
     ysb_vol: float, the volume of 40X yellow sample buffer needed in uL
     """
-    total_reactions = reps * len(primer_pairs)
-    for r in total_reactions:
+    total_reactions = reps * primer_pairs
+    for r in range(total_reactions):
         if reaction_vol == 10:
             ysb_vol = (reps * primer_pairs) * 0.25
         elif reaction_vol == 20:
