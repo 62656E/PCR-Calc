@@ -11,9 +11,13 @@ with open("data.pkl", "rb") as f:
 
 # Unpack data
 master_mix_vols = data["master_mix_vols"]
+st.write("RVC master_mix_vols: " + str(master_mix_vols))
 ysb_vols = data["ysb_vols"]
+st.write("RVC ysb_vols: " + str(ysb_vols))
 samples = data["samples"]
+st.write("RVC samples: " + str(samples))
 total_dna_vols = data["total_dna_vols"]
+at.write("RVC total_dna_vols: " + str(total_dna_vols))
 
 # Title page
 st.title("Reagent Volumes")
