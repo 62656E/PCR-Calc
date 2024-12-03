@@ -30,13 +30,16 @@ ysb_vols_df = pd.DataFrame(
 # Create series for each reagent volume
 total_dna_vols = pd.Series(total_dna_vols, name="Total DNA")
 ysb_vols = pd.Series(ysb_vols, name="YSB")
-total_vols = [ysb + dna for ysb, dna in zip(ysb_vols, total_dna_vols)]
+
 # Assemble data frame
-ysb_vols_df = pd.concat([total_dna_vols, ysb_vols, total_vols], axis=1)
+ysb_vols_df = pd.concat([total_dna_vols, ysb_vols], axis=1)
+ysb_vols_df["Total Volume"] = ysb_vols_df["Total DNA"] + ysb_vols_df["YSB"]
 # Rename cols
 ysb_vols_df.columns = ["Total DNA", "YSB", "Total Volume"]
 # Set sample number as index
 ysb_vols_df.index = range(1, samples + 1)
+# Transpose data frame for better display
+ysb_vols_df = ysb_vols_df.T
 
 master_mix_vols_df = pd.DataFrame.from_dict(
     master_mix_vols, orient="index", columns=range(1, samples + 1)
