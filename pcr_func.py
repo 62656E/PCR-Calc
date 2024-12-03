@@ -26,22 +26,25 @@ def temp_per_well(reaction_vol, dna_conc):
     return int(dna_vol)  # Return the volume of DNA needed per well
 
 
-def total_dna_vol(dna_vol, reps, primer_pairs):
+def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
     """
     This function calculates the total volume in uL of DNA needed for per sample with a given number of replicates and primer pairs.
 
     Parameters:
-    dna_vol: float, the volume of DNA needed per well in uL
     reps: int, the number of replicates
     primer_pairs: int, the number of primer pairs
-
+    reaction_vol: int, the total volume of the PCR reaction in uL
+    dna_concs: list, the concentrations of the DNA samples
+    
     Returns:
     total_dna: float, the total volume of DNA needed in uL
     """
 
     # Calculate the total volume of DNA needed for a given number of replicates and primer pairs
     # Add 10% extra volume for pipetting error
-    total_dna = (dna_vol * reps * primer_pairs) * 1.1
+    for conc in dna_concs:
+        total_dna = [temp_per_well(reaction_vol, conc) * reps * primer_pairs]
+        
     return total_dna  # Return the total volume of DNA needed
 
 
