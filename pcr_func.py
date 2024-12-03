@@ -42,7 +42,7 @@ def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
     # Calculate the total volume of DNA needed for a given number of replicates and primer pairs
     # Add 10% extra volume for pipetting error
     for conc in dna_concs:
-        total_dna = [temp_per_well(reaction_vol, conc) * reps * primer_pairs]
+        total_dna = total_dna.append[temp_per_well(reaction_vol, conc) * reps * primer_pairs]
 
     return total_dna  # Return the total volume of DNA needed
 
