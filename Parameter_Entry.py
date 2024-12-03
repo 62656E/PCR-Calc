@@ -96,6 +96,8 @@ if st.button("Calculate Plate Layout"):
         "master_mix_vols": master_mix_vols,
     }
 
+    # Print dict
+    st.write(data)
     # Save data to a pickle file
     with open("data.pkl", "wb") as f:
         pkl.dump(data, f)
