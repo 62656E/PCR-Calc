@@ -28,18 +28,20 @@ ysb_vols_df = pd.DataFrame(
 
 # Populate data frames
 # Create series for each reagent volume
-total_dna_vols = pd.series(total_dna_vols, name = "Total DNA")
-ysb_vols = pd.series(ysb_vols, name = "YSB")
+total_dna_vols = pd.series(total_dna_vols, name="Total DNA")
+ysb_vols = pd.series(ysb_vols, name="YSB")
 total_vols = [ysb + dna for ysb, dna in zip(ysb_vols, total_dna_vols)]
 # Assemble data frame
 ysb_vols_df = pd.concat([total_dna_vols, ysb_vols, total_vols], axis=1)
-#Rename cols
+# Rename cols
 ysb_vols_df.columns = ["Total DNA", "YSB", "Total Volume"]
-# Set sample number as index 
+# Set sample number as index
 ysb_vols_df.index = range(1, samples + 1)
 
-master_mix_vols_df = pd.DataFrame.from_dict(master_mix_vols, orient="index", columns=range(1, samples + 1))
-        
+master_mix_vols_df = pd.DataFrame.from_dict(
+    master_mix_vols, orient="index", columns=range(1, samples + 1)
+)
+
 # Multiply all reagent volumes by 10% to account for pipetting error
 ysb_vols_df *= 1.1
 master_mix_vols_df *= 1.1

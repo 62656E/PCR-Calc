@@ -1,6 +1,6 @@
 # Import necessary libraries
 import pandas as pd
-import re 
+import re
 
 
 def temp_per_well(reaction_vol, dna_conc):
@@ -10,7 +10,6 @@ def temp_per_well(reaction_vol, dna_conc):
     Parameters:
     reaction_vol: int, the total volume of the PCR reaction in uL
     dna_conc: float, the concentration of the DNA in ng/uL
-
 
     Returns:
     dna_vol: float, the volume of DNA needed per well in uL
@@ -35,7 +34,7 @@ def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
     primer_pairs: int, the number of primer pairs
     reaction_vol: int, the total volume of the PCR reaction in uL
     dna_concs: list, the concentrations of the DNA samples
-    
+
     Returns:
     total_dna: float, the total volume of DNA needed in uL
     """
@@ -44,7 +43,7 @@ def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
     # Add 10% extra volume for pipetting error
     for conc in dna_concs:
         total_dna = [temp_per_well(reaction_vol, conc) * reps * primer_pairs]
-        
+
     return total_dna  # Return the total volume of DNA needed
 
 
@@ -167,7 +166,15 @@ def ninetysix_plate_planner(
     if inc_controls:
 
         # Find all wells with NTC and calculate volumes
-        ntc_wells = plate_layout[plate_layout.map(lambda x: bool(re.search(r'ntc', str(x), re.IGNORECASE)))].stack().index.tolist()
+        ntc_wells = (
+            plate_layout[
+                plate_layout.map(
+                    lambda x: bool(re.search(r"ntc", str(x), re.IGNORECASE))
+                )
+            ]
+            .stack()
+            .index.tolist()
+        )
 
     if ntc_wells:
         for well in ntc_wells:

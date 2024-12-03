@@ -51,21 +51,23 @@ if st.button("Calculate Plate Layout"):
     gene_names = ["RPL13", "YWHAZ", "GAPDH"]
     dna_concs = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
     inc_controls = True
-    
-    # Calculate plate layouts 
+
+    # Calculate plate layouts
     plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(
         samples, dna_concs, reaction_vol, gene_names, reps, inc_controls
     )
-    
+
     # Calculate total DNA volume per sample
     total_dna_vols = [pcr.total_dna_vol(samples, dna_concs, reaction_vol)]
-    
+
     # Calculate YSB volumes per sample
     ysb_vols = [pcr.ysb_volumes(reaction_vol, reps, primer_pairs)]
-    
-    # Calculate master mix volumes 
-    master_mix_vols = pcr.master_mix_vols(reaction_vol, gene_names, samples, reps, inc_controls)
-    
+
+    # Calculate master mix volumes
+    master_mix_vols = pcr.master_mix_vols(
+        reaction_vol, gene_names, samples, reps, inc_controls
+    )
+
     # Pack data into a dictionary
     data = {
         "reaction_vol": reaction_vol,
