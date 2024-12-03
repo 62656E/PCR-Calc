@@ -33,7 +33,9 @@ ysb_vols = pd.Series(ysb_vols, name="YSB")
 
 # Assemble data frame
 ysb_vols_df = pd.concat([total_dna_vols, ysb_vols], axis=1)
+print("RVC ysb vol series: " + ysb_vols_df)
 ysb_vols_df["Total Volume"] = ysb_vols_df["Total DNA"] + ysb_vols_df["YSB"]
+print("RVC dna series: " + total_dna_vols)
 # Rename cols
 ysb_vols_df.columns = ["Total DNA", "YSB", "Total Volume"]
 # Set sample number as index
