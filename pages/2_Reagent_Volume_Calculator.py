@@ -13,6 +13,7 @@ with open("data.pkl", "rb") as f:
 master_mix_vols = data["master_mix_vols"]
 ysb_vols = data["ysb_vols"]
 samples = data["samples"]
+total_dna_vols = data["total_dna_vols"]
 
 # Title page
 st.title("Reagent Volumes")
@@ -23,21 +24,15 @@ st.markdown(
 # Create data frames
 ysb_vols_df = pd.DataFrame(
     columns=[range(1, samples + 1)],
-    index=["Template DNA", "YSB", "Total"],
-)
-
-master_mix_vols_df = pd.DataFrame(
-    columns=range(1, samples + 1),
-    index=["SYBR Green", "Forward Primer", "Reverse Primer", "Water", "Total"],
 )
 
 # Populate data frames
-for sample in range(1, samples + 1):
-    ysb_vols_df[sample] = ysb_vols[sample]
+ysb_vols_df.rowappend("Template DNA", total_dna_vols) # YSB/DNA for each sample
+ysb_vols_df.rowappend("YSB", ysb_vols)
+ysb_vols_df.rowappend("Total", total_dna_vols + ysb_vols)     
 
-for sample, vols in master_mix_vols.items():
-    master_mix_vols_df[sample] = pd.Series(vols)
-
+master_mix_vols_df = pd.DataFrame.from_dict(master_mix_vols, orient="index", columns=range(1, samples + 1))
+        
 # Multiply all reagent volumes by 10% to account for pipetting error
 ysb_vols_df *= 1.1
 master_mix_vols_df *= 1.1

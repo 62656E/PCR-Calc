@@ -51,32 +51,21 @@ if st.button("Calculate Plate Layout"):
     gene_names = ["RPL13", "YWHAZ", "GAPDH"]
     dna_concs = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
     inc_controls = True
-
+    
+    # Calculate plate layouts 
     plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(
         samples, dna_concs, reaction_vol, gene_names, reps, inc_controls
     )
-
-    # Calculate total DNA volume needed per sample
-    total_dna_vols = {}
-    for sample in range(samples):
-        total_dna_vols[sample] = pcr.total_dna_vol(
-            pcr.temp_per_well(reaction_vol, dna_concs[sample]), reps, primer_pairs
-        )
-
-    print("RVC Total DNA Volumes " + str(total_dna_vols))
-
-    # Calculate 40X yellow sample buffer volume needed per sample
-    ysb_vols = {}
-    for sample in range(samples):
-        ysb_vols[sample + 1] = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
-
-    print("RVC YSB Volumes " + str(ysb_vols))
-
-    # Calculate total volume of master mix, and its constituents, needed for all reactions
-    master_mix_vols = pcr.master_mix_vols(
-        reaction_vol, gene_names, samples, reps, inc_controls
-    )
-
+    
+    # Calculate total DNA volume per sample
+    total_dna_vols = [pcr.total_dna_volumes(samples, dna_concs, reaction_vol)]
+    
+    # Calculate YSB volumes per sample
+    ysb_vols = [pcr.ysb_volumes(reaction_vol, reps, primer_pairs)]
+    
+    # Calculate master mix volumes 
+    master_mix_vols = pcr.master_mix_vols(reaction_vol, gene_names, samples, reps, inc_controls)
+    
     # Pack data into a dictionary
     data = {
         "reaction_vol": reaction_vol,

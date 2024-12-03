@@ -190,7 +190,7 @@ def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
     inc_controls: boolean, whether to include controls in the plate layout.
 
     Returns:
-    master_mix_vols: dict, a dictionary with the volumes of the master mix components
+    master_mix_vols: List, a list with the volumes of the master mix components
     """
 
     # Dictionary of master mix components and their volumes in uL
