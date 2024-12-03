@@ -58,7 +58,7 @@ if st.button("Calculate Plate Layout"):
     )
 
     # Calculate total DNA volume per sample
-    total_dna_vols = [pcr.total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol)]
+    total_dna_vols = pcr.total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol)
 
     # Calculate YSB volumes per sample
     ysb_vols = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
