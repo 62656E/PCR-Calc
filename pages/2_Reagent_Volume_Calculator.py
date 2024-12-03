@@ -28,8 +28,8 @@ ysb_vols_df = pd.DataFrame(
 
 # Populate data frames
 # Create series for each reagent volume
-total_dna_vols = pd.series(total_dna_vols, name="Total DNA")
-ysb_vols = pd.series(ysb_vols, name="YSB")
+total_dna_vols = pd.Series(total_dna_vols, name="Total DNA")
+ysb_vols = pd.Series(ysb_vols, name="YSB")
 total_vols = [ysb + dna for ysb, dna in zip(ysb_vols, total_dna_vols)]
 # Assemble data frame
 ysb_vols_df = pd.concat([total_dna_vols, ysb_vols, total_vols], axis=1)
