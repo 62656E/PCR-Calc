@@ -103,4 +103,4 @@ if st.button("Calculate Plate Layout"):
         pkl.dump(data, f)
 
     # Navigate to the plate layout page
-    sf.nav_page("Plate_Layout")
+    # sf.nav_page("Plate_Layout")
