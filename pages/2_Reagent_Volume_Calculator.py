@@ -26,7 +26,11 @@ st.markdown(
 )
 
 # Create data frames
-ysb_vols_df = pd.DataFrame(data = [ysb_vols, total_dna_vols], columns = range(1, samples + 1), index = ["YSB Volumes (uL)", "Total DNA (uL)"])
+ysb_vols_df = pd.DataFrame(
+    data=[ysb_vols, total_dna_vols],
+    columns=range(1, samples + 1),
+    index=["YSB Volumes (uL)", "Total DNA (uL)"],
+)
 
 # Add total column to ysb_vols_df
 ysb_vols_df["Total"] = ysb_vols_df.sum(axis=1)
@@ -48,7 +52,7 @@ ysb_vols_df.to_csv(ysb_temp_buffer, index=False)
 ysb_temp_buffer.seek(0)
 
 master_buffer = BytesIO()
-master_mix_vols.to_csv(master_buffer, index=False)
+master_mix_vols_df.to_csv(master_buffer, index=False)
 master_buffer.seek(0)
 
 st.download_button(
