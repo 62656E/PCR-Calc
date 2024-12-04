@@ -75,7 +75,7 @@ def ysb_vol_calc(samples, reaction_vol, reps, primer_pairs):
 
 
 def ninetysix_plate_planner(
-    sample_no, dna_concs, reaction_vol, genes, reps, inc_controls=True
+    sample_no, dna_concs, reaction_vol, genes, reps, primer_pairs, inc_controls=True
 ):
     """
     This function calculates a 96 plate layout for a given number of samples, primer pairs and replicates.
@@ -87,6 +87,7 @@ def ninetysix_plate_planner(
     genes: list, the names of the genes/primer pairs
     reps: int, the number of replicates
     inc_controls: boolean, whether to include controls in the plate layout. Default is True.
+    primer_pairs: int, the number of primer pairs
 
     Returns:
     plate_layout: dataframe, a dataframe with the plate layout
