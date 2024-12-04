@@ -188,7 +188,7 @@ def ninetysix_plate_planner(
 
 
 # Master mix volumes calculator
-def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
+def master_mix_vol_calc(reaction_vol, genes, samples, reps, inc_controls):
     """
     This function calculates the volumes of master mix components needed for a given number of reactions.
 
@@ -228,7 +228,7 @@ def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
 
     if reaction_vol == 20:
         for gene in genes:
-            master_mix_vols.append(master_mix_20ul * total_reactions)
+            master_mix_vols.(master_mix_20ul * total_reactions)
     else:
         for gene in genes:
             master_mix_vols.append(master_mix_10ul * total_reactions)
