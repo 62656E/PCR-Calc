@@ -186,51 +186,49 @@ def ninetysix_plate_planner(
 
     return plate_layout, vol_plate_layout
 
-
-# Master mix volumes calculator
+# Master Mix Volume Calculator
 def master_mix_vol_calc(reaction_vol, genes, samples, reps, inc_controls):
     """
-    This function calculates the volumes of master mix components needed for a given number of reactions.
+    Calculate the volumes of master mix components needed for a given number of reactions.
 
     Parameters:
-    reaction_vol: int, the total volume of the PCR reaction in uL
-    genes: list, the names of the genes/primer pairs in use
-    samples: int, the number of samples
-    reps: int, the number of replicates
-    inc_controls: boolean, whether to include controls in the plate layout.
+    reaction_vol: int, total volume of the PCR reaction in uL
+    genes: list, names of the genes/primer pairs in use
+    samples: int, number of samples
+    reps: int, number of replicates
+    inc_controls: boolean, whether to include controls in the plate layout
 
     Returns:
-    master_mix_vols: dataframe, a dataframe with the volumes of the master mix components needed per primer pair
+    master_mix_vols: dataframe, volumes of the master mix components needed per primer pair
     """
-
-    # Dictionary of master mix components and their volumes in uL
-    master_mix_20ul = {
+    # Define master mix volumes for 20 uL and 10 uL reactions
+    master_mix_20ul = pd.Series({
         "SYBR Green": 10,
         "Forward Primer": 1,
         "Reverse Primer": 1,
         "Nuclease-free Water": 6.5,
-    }
-
-    master_mix_10ul = {
+    })
+    master_mix_10ul = pd.Series({
         "SYBR Green": 5,
         "Forward Primer": 0.5,
         "Reverse Primer": 0.5,
         "Nuclease-free Water": 3.25,
-    }
+    })
 
-    master_mix_10ul = pd.Series(master_mix_10ul)
-    master_mix_20ul = pd.Series(master_mix_20ul)
+    # Determine the total number of reactions per primer pair
+    total_reactions = samples * reps * len(genes)
+    if inc_controls:
+        total_reactions += len(genes) * 3  # Add control reactions
 
-    # Calculate the total number of reactions per primer pair
-    total_reactions = (samples * reps * len(genes)) + (
-        len(genes) * 3 if inc_controls else 0
-    )
+    # Select the appropriate master mix volume template
+    master_mix_template = master_mix_20ul if reaction_vol == 20 else master_mix_10ul
 
-    if reaction_vol == 20:
-        for gene in genes:
-            master_mix_vols.(master_mix_20ul * total_reactions)
-    else:
-        for gene in genes:
-            master_mix_vols.append(master_mix_10ul * total_reactions)
+    # Calculate volumes for each component per gene
+    master_mix_vols = {}
+    for gene in genes:
+        master_mix_vols[gene] = master_mix_template * total_reactions
 
-    return master_mix_vols
+    # Convert to a DataFrame for better organization
+    master_mix_vols_df = pd.DataFrame(master_mix_vols)
+
+    return master_mix_vols_df.T  # Transpose for better readability
