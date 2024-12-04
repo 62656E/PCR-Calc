@@ -142,7 +142,7 @@ def ninetysix_plate_planner(
                     - int(dna_vol)
                     - int(sybr_vol)
                     - int((primer_vol) * 2)
-                    - ysb_vol_calc(reaction_vol, 1, 1, primer_pairs).loc[sample]
+                    - ysb_vol_calc(reaction_vol, 1, 1, primer_pairs).iloc[sample]
                 )
                 vol_plate_layout.loc[row, col] = (
                     f"{int(dna_vol)} DNA -{int(sybr_vol)} SYBR -{int(primer_vol)} Each Primer -{int(water_vol)} Water"
