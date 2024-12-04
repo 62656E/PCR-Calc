@@ -49,7 +49,7 @@ def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
     return total_dna  # Return the total volume of DNA needed
 
 
-def ysb_vol_calc(reaction_vol, reps, primer_pairs):
+def ysb_vol_calc(samples, reaction_vol, reps, primer_pairs):
     """
     This function calculates the volume of 40X yellow sample buffer needed for a total volume of template DNA,
     based on number of replicates and primer pairs.
@@ -58,14 +58,18 @@ def ysb_vol_calc(reaction_vol, reps, primer_pairs):
     reaction_vol: int, the total volume of the PCR reaction in uL
     reps: int, the number of replicates
     primer_pairs: int, the number of primer pairs
+    samples: int, the number of samples
 
     Returns:
     ysb_vols: series, the volumes of 40X yellow sample buffer needed in uL
     """
+    # Calculate the number of reactions per sample
     total_reactions = reps * primer_pairs
-    ysb_vols = pd.Series(index=range(1, total_reactions + 1), dtype=float)
+    
+    # Create a series to store the volumes of 40X yellow sample buffer needed
+    ysb_vols = pd.Series(index=range(1, samples + 1), dtype=float)
 
-    for i in range(1, total_reactions + 1):
+    for i in range(1,  samples + 1):
         ysb_vols.loc[i] = 0.5 if reaction_vol == 20 else 0.25
     return ysb_vols
 
