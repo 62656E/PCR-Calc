@@ -10,8 +10,8 @@ with open("data.pkl", "rb") as f:
     data = pkl.load(f)
 
 # Unpack data
-master_mix_vols = data["master_mix_vols"]
-st.write("RVC master_mix_vols: " + str(master_mix_vols))
+master_mix_vols_df = data["master_mix_vols"]
+st.write("RVC master_mix_vols: " + str(master_mix_vols_df))
 ysb_vols = data["ysb_vols"]
 st.write("RVC ysb_vols: " + str(ysb_vols))
 samples = data["samples"]
@@ -26,44 +26,20 @@ st.markdown(
 )
 
 # Create data frames
-ysb_vols_df = pd.DataFrame(
-    columns=[range(1, samples + 1)],
-)
+ysb_vols_df = pd.DataFrame(data = [ysb_vols, total_dna_vols], columns = range(1, samples + 1), index = ["YSB Volumes (uL)", "Total DNA (uL)"])
 
-# Populate data frames
-# Create series for each reagent volume
-total_dna_vols = pd.Series(total_dna_vols, name="Total DNA")
-ysb_vols = pd.Series(ysb_vols, name="YSB")
-
-# Assemble data frame
-ysb_vols_df = pd.concat([total_dna_vols, ysb_vols], axis=1)
-st.write("RVC ysb vol series: " + str(ysb_vols_df))
-ysb_vols_df["Total Volume"] = ysb_vols_df["Total DNA"] + ysb_vols_df["YSB"]
-st.write("RVC dna series: " + str(total_dna_vols))
-# Rename cols
-ysb_vols_df.columns = ["Total DNA", "YSB", "Total Volume"]
-# Set sample number as index
-ysb_vols_df.index = range(1, samples + 1)
-# Transpose data frame for better display
-ysb_vols_df = ysb_vols_df.T
-
-master_mix_vols_df = pd.DataFrame.from_dict(
-    master_mix_vols, orient="index", columns=range(1, samples + 1)
-)
+# Add total column to ysb_vols_df
+ysb_vols_df["Total"] = ysb_vols_df.sum(axis=1)
 
 # Multiply all reagent volumes by 10% to account for pipetting error
 ysb_vols_df *= 1.1
 master_mix_vols_df *= 1.1
 
-# Ensure DF indexing is correct
-ysb_vols_df = ysb_vols_df.T
-master_mix_vols = master_mix_vols_df.T
-
 # Display both dataframes
 st.write("YSB and Sample DNA Volumes")
 st.write(ysb_vols_df)
 st.write("Master Mix Volumes")
-st.write(master_mix_vols)
+st.write(master_mix_vols_df)
 
 # Add download links for reagent volumes
 

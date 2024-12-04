@@ -5,9 +5,9 @@ import base64
 import pickle as pkl
 
 # Load data from pickle file
-with open ("data.pkl", "rb") as f:
+with open("data.pkl", "rb") as f:
     data = pkl.load(f)
-    
+
 # Unpack data
 reaction_vol = data["reaction_vol"]
 primer_pairs = data["primer_pairs"]
@@ -26,19 +26,17 @@ st.markdown(
     "All volumes given in uL. The calculator assumes 40X yellow sample buffer is being used."
 )
 
-
-
 # Display plate_layout and vol_plate_layout in a table
 st.header("Volume Plate Layout:")
 st.markdown("Format of below cells is gene/primer pair name-sample number-repeat.")
 st.dataframe(plate_layout)
+
 # Display the volume layout for each well in the 96-well plate
 st.header("Volume Plate Layout:")
 st.markdown("Volume of reagents needed per well in uL.")
 st.dataframe(vol_plate_layout)
 
 # Save the plate layout and volume layout as CSV files
-
 layout_buffer = BytesIO()
 plate_layout.to_csv(layout_buffer, index=False)
 layout_buffer.seek(0)
@@ -47,6 +45,7 @@ volume_buffer = BytesIO()
 vol_plate_layout.to_csv(volume_buffer, index=False)
 volume_buffer.seek(0)
 
+# Add download buttons
 st.download_button(
     label="Download Plate Layout",
     data=layout_buffer,
