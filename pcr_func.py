@@ -70,7 +70,7 @@ def ysb_vol_calc(samples, reaction_vol, reps, primer_pairs):
     ysb_vols = pd.Series(index=range(1, samples + 1), dtype=float)
 
     for i in range(1,  samples + 1):
-        ysb_vols.loc[i] = 0.5 if reaction_vol == 20 else 0.25
+        ysb_vols.loc[i] = (0.5 if reaction_vol == 20 else 0.25) * total_reactions
     return ysb_vols
 
 
@@ -141,7 +141,7 @@ def ninetysix_plate_planner(
                     - int(dna_vol)
                     - int(sybr_vol)
                     - int((primer_vol) * 2)
-                    - ysb_vol_calc(reaction_vol, 1, 1)
+                    - ysb_vol_calc(reaction_vol, 1, 1, primer_pairs)
                 )
                 vol_plate_layout.loc[row, col] = (
                     f"{int(dna_vol)} DNA -{int(sybr_vol)} SYBR -{int(primer_vol)} Each Primer -{int(water_vol)} Water"
@@ -183,6 +183,7 @@ def ninetysix_plate_planner(
     if ntc_wells:
         for well in ntc_wells:
             row, col = well
+            # Primer, SYBR, and buffer volumes are the same as for samples
             water_vol = int(reaction_vol) - int(sybr_vol) - int((primer_vol) * 2)
             vol_plate_layout.loc[row, col] = (
                 f"{int(sybr_vol)} SYBR -{int(primer_vol)} Each Primer -{int(water_vol)} Water"
