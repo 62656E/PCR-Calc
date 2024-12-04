@@ -2,17 +2,16 @@
 import pandas as pd
 import re
 
-
 def temp_per_well(reaction_vol, dna_conc):
     """
     This function calculates the volume of DNA needed per well for a given concentration of DNA.
 
     Parameters:
     reaction_vol: int, the total volume of the PCR reaction in uL
-    dna_conc: float, the concentration of the DNA in ng/uL
+    dna_conc: list, dna concentrations in ng/uL
 
     Returns:
-    dna_vol: float, the volume of DNA needed per well in uL
+    dna_vol: int, the volume of DNA needed per well in uL
     """
     final_conc = 0.5  # Final concentration of DNA in ng/uL
 
@@ -36,13 +35,15 @@ def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
     dna_concs: list, the concentrations of the DNA samples
 
     Returns:
-    total_dna: float, the total volume of DNA needed in uL
+    total_dna: series, the total volume of DNA needed per sample
     """
 
     # Calculate the total volume of DNA needed for a given number of replicates and primer pairs
     # Add 10% extra volume for pipetting error
+    
+    total_dna = pd.Series(index = range(1, len(dna_concs) + 1))
     for conc in dna_concs:
-        total_dna = total_dna.append[temp_per_well(reaction_vol, conc) * reps * primer_pairs]
+        total_dna[conc] = (temp_per_well(reaction_vol, conc) * reps * primer_pairs) 
 
     return total_dna  # Return the total volume of DNA needed
 
