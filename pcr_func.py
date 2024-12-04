@@ -2,6 +2,7 @@
 import pandas as pd
 import re
 
+
 def temp_per_well(reaction_vol, dna_conc):
     """
     This function calculates the volume of DNA needed per well for a given concentration of DNA.
@@ -40,10 +41,10 @@ def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
 
     # Calculate the total volume of DNA needed for a given number of replicates and primer pairs
     # Add 10% extra volume for pipetting error
-    
-    total_dna = pd.Series(index = range(1, len(dna_concs) + 1))
-    for conc in dna_concs:
-        total_dna[conc] = (temp_per_well(reaction_vol, conc) * reps * primer_pairs) 
+
+    total_dna = pd.Series(index=range(1, len(dna_concs) + 1))
+    for i, conc in dna_concs:
+        total_dna.loc[i] = temp_per_well(reaction_vol, conc) * reps * primer_pairs
 
     return total_dna  # Return the total volume of DNA needed
 
@@ -59,17 +60,19 @@ def ysb_vol_calc(reaction_vol, reps, primer_pairs):
     primer_pairs: int, the number of primer pairs
 
     Returns:
-    ysb_vol: float, the volume of 40X yellow sample buffer needed in uL
+    ysb_vols: series, the volumes of 40X yellow sample buffer needed in uL
     """
     total_reactions = reps * primer_pairs
-    for r in range(total_reactions):
-        if reaction_vol == 10:
-            ysb_vol = (reps * primer_pairs) * 0.25
-        elif reaction_vol == 20:
-            ysb_vol = (reps * primer_pairs) * 0.5
-        else:
-            raise ValueError("Unsupported reaction volume. Please use 10 or 20 uL.")
-    return ysb_vol
+    ysb_vols = pd.Series(index=range(1, total_reactions + 1))
+
+    if reaction_vol == 20:
+        for i in range(1, total_reactions + 1):
+            ysb_vols.loc[i] = 0.5
+    else:
+        for i in range(1, total_reactions + 1):
+            ysb_vols.loc[i] = 0.25
+
+    return ysb_vols
 
 
 def ninetysix_plate_planner(
@@ -202,7 +205,7 @@ def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
     inc_controls: boolean, whether to include controls in the plate layout.
 
     Returns:
-    master_mix_vols: List, a list with the volumes of the master mix components
+    master_mix_vols: dataframe, a dataframe with the volumes of the master mix components needed per primer pair
     """
 
     # Dictionary of master mix components and their volumes in uL
@@ -220,29 +223,19 @@ def master_mix_vols(reaction_vol, genes, samples, reps, inc_controls):
         "Nuclease-free Water": 3.25,
     }
 
-    # Calculate the total number of reactions per gene/primer pair
-    total_reactions_per_primer_pair = (samples * reps) * len(genes)
+    master_mix_10ul = pd.Series(master_mix_10ul)
+    master_mix_20ul = pd.Series(master_mix_20ul)
 
-    # Add control reactions if inc_controls is True
-    if inc_controls:
-        total_reactions_per_primer_pair += 3 * len(
-            genes
-        )  # 3 control reactions per gene
+    # Calculate the total number of reactions per primer pair
+    total_reactions = (samples * reps * len(genes)) + (
+        len(genes) * 3 if inc_controls else 0
+    )
 
-    # Calculate the volumes of master mix components for each gene/primer_pair
-    master_mix_vols = {}
-    for gene in genes:
-        if reaction_vol == 20:
-            master_mix_vols[gene] = {
-                k: v * total_reactions_per_primer_pair
-                for k, v in master_mix_20ul.items()
-            }
-        elif reaction_vol == 10:
-            master_mix_vols[gene] = {
-                k: v * total_reactions_per_primer_pair
-                for k, v in master_mix_10ul.items()
-            }
-        else:
-            raise ValueError("Unsupported reaction volume. Please use 10 or 20 uL.")
+    if reaction_vol == 20:
+        for gene in genes:
+            master_mix_vols.append(master_mix_20ul * total_reactions)
+    else:
+        for gene in genes:
+            master_mix_vols.append(master_mix_10ul * total_reactions)
 
     return master_mix_vols
