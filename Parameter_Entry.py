@@ -43,15 +43,6 @@ with st.expander("Control Information", expanded=True):
 # Calculate plate layout based on user input
 if st.button("Calculate Plate Layout"):
 
-    # Hardcoded values for testing
-    reaction_vol = 20
-    primer_pairs = 3
-    samples = 12
-    reps = 2
-    gene_names = ["RPL13", "YWHAZ", "GAPDH"]
-    dna_concs = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-    inc_controls = True
-
     # Calculate plate layouts
     plate_layout, vol_plate_layout = pcr.ninetysix_plate_planner(
         samples, dna_concs, reaction_vol, gene_names, reps, inc_controls
@@ -103,4 +94,4 @@ if st.button("Calculate Plate Layout"):
         pkl.dump(data, f)
 
     # Navigate to the plate layout page
-    # sf.nav_page("Plate_Layout")
+    sf.nav_page("Plate_Layout")
