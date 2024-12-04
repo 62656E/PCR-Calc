@@ -22,7 +22,7 @@ def temp_per_well(reaction_vol, dna_conc):
     # Calculate the volume of DNA needed per well for a given sample
     dna_vol = (final_conc * reaction_vol) / dna_conc
 
-    return int(dna_vol)  # Return the volume of DNA needed per well
+    return dna_vol  # Return the volume of DNA needed per well
 
 
 def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
@@ -42,8 +42,8 @@ def total_dna_vol(dna_concs, reps, primer_pairs, reaction_vol):
     # Calculate the total volume of DNA needed for a given number of replicates and primer pairs
     # Add 10% extra volume for pipetting error
 
-    total_dna = pd.Series(index=range(1, len(dna_concs) + 1))
-    for i, conc in dna_concs:
+    total_dna = pd.Series(index=range(1, len(dna_concs) + 1), dtype=float)
+    for i, conc in enumerate(dna_concs, start=1):
         total_dna.loc[i] = temp_per_well(reaction_vol, conc) * reps * primer_pairs
 
     return total_dna  # Return the total volume of DNA needed
@@ -63,15 +63,10 @@ def ysb_vol_calc(reaction_vol, reps, primer_pairs):
     ysb_vols: series, the volumes of 40X yellow sample buffer needed in uL
     """
     total_reactions = reps * primer_pairs
-    ysb_vols = pd.Series(index=range(1, total_reactions + 1))
+    ysb_vols = pd.Series(index=range(1, total_reactions + 1), dtype=float)
 
-    if reaction_vol == 20:
-        for i in range(1, total_reactions + 1):
-            ysb_vols.loc[i] = 0.5
-    else:
-        for i in range(1, total_reactions + 1):
-            ysb_vols.loc[i] = 0.25
-
+    for i in range(1, total_reactions + 1):
+        ysb_vols.loc[i] = 0.5 if reaction_vol == 20 else 0.25
     return ysb_vols
 
 
