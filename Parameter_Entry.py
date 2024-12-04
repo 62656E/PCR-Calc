@@ -64,7 +64,7 @@ if st.button("Calculate Plate Layout"):
     ysb_vols = pcr.ysb_vol_calc(reaction_vol, reps, primer_pairs)
 
     # Calculate master mix volumes
-    master_mix_vols = pcr.master_mix_vols_calc(
+    master_mix_vols = pcr.master_mix_vol_calc(
         reaction_vol, gene_names, samples, reps, inc_controls
     )
 
